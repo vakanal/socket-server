@@ -29,10 +29,14 @@ export default class Server {
     }
 
     private escucharSockets() {
-        console.log('Escuchando conexiones - sockets');
         // Client Connected
         this.io.on('connection', cliente => {
-            console.log('Cliente conectado');
+            // ID del cliente
+            console.log(cliente.id);
+            // Conectar usuario
+            miSocket.conectarUsuario(cliente);
+            // Configurar usuario
+            miSocket.configurarUsuario(cliente, this.io);
             // Client Messages
             miSocket.mensaje(cliente, this.io);
             // Client Disconnected
@@ -40,8 +44,8 @@ export default class Server {
         });
     }
 
-    start( callback: Function ) {
-        this.httpServer.listen( this.port, callback );
+    public start(callback: Function) {
+        this.httpServer.listen(this.port, callback);
     }
 
 }
